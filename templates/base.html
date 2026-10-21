@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>☁️ Cloud Notes — GMIU Cloud Assignment</title>
+  <style>
+    /* ── Reset & base ───────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      background: #f0f4ff;
+      color: #1e2a3a;
+      min-height: 100vh;
+    }
+
+    /* ── Navbar ─────────────────────────────────────── */
+    nav {
+      background: linear-gradient(135deg, #1a73e8 0%, #0d47a1 100%);
+      color: white;
+      padding: 0 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 60px;
+      box-shadow: 0 2px 8px rgba(0,0,0,.2);
+    }
+    nav .brand { font-size: 1.3rem; font-weight: 700; letter-spacing: -.3px; }
+    nav .brand span { opacity: .75; font-weight: 400; font-size: .9rem; margin-left: .5rem; }
+    nav a {
+      color: rgba(255,255,255,.85);
+      text-decoration: none;
+      margin-left: 1.5rem;
+      font-size: .9rem;
+      transition: color .2s;
+    }
+    nav a:hover { color: #fff; }
+
+    /* ── Cloud banner ───────────────────────────────── */
+    .cloud-banner {
+      background: linear-gradient(135deg, #e3f0ff 0%, #dbeafe 100%);
+      border-bottom: 1px solid #bfdbfe;
+      padding: .5rem 2rem;
+      font-size: .78rem;
+      color: #1d4ed8;
+      display: flex;
+      gap: 2rem;
+      flex-wrap: wrap;
+    }
+    .cloud-banner b { color: #1e3a8a; }
+
+    /* ── Main layout ────────────────────────────────── */
+    .container { max-width: 900px; margin: 2rem auto; padding: 0 1.5rem; }
+
+    /* ── Flash messages ─────────────────────────────── */
+    .flash-list { list-style: none; margin-bottom: 1rem; }
+    .flash-list li {
+      padding: .75rem 1rem;
+      border-radius: 8px;
+      margin-bottom: .5rem;
+      font-size: .9rem;
+    }
+    .flash-list li.success { background: #dcfce7; color: #166534; border: 1px solid #bbf7d0; }
+    .flash-list li.error   { background: #fee2e2; color: #991b1b; border: 1px solid #fecaca; }
+    .flash-list li.info    { background: #dbeafe; color: #1e40af; border: 1px solid #bfdbfe; }
+
+    /* ── Cards ──────────────────────────────────────── */
+    .card {
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 2px 12px rgba(0,0,0,.07);
+      padding: 1.5rem;
+      margin-bottom: 1rem;
+      border: 1px solid #e2e8f0;
+    }
+
+    /* ── Buttons ────────────────────────────────────── */
+    .btn {
+      display: inline-block;
+      padding: .55rem 1.2rem;
+      border-radius: 8px;
+      font-size: .88rem;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      text-decoration: none;
+      transition: opacity .2s, transform .1s;
+    }
+    .btn:hover { opacity: .88; transform: translateY(-1px); }
+    .btn-primary   { background: #1a73e8; color: white; }
+    .btn-danger    { background: #dc2626; color: white; }
+    .btn-secondary { background: #e2e8f0; color: #374151; }
+
+    /* ── Forms ──────────────────────────────────────── */
+    label { display: block; margin-bottom: .3rem; font-weight: 600; font-size: .88rem; color: #374151; }
+    input[type=text], textarea, select {
+      width: 100%;
+      padding: .6rem .9rem;
+      border: 1px solid #d1d5db;
+      border-radius: 8px;
+      font-size: .95rem;
+      margin-bottom: 1rem;
+      transition: border-color .2s;
+      font-family: inherit;
+    }
+    input[type=text]:focus, textarea:focus, select:focus {
+      outline: none;
+      border-color: #1a73e8;
+      box-shadow: 0 0 0 3px rgba(26,115,232,.15);
+    }
+    textarea { min-height: 130px; resize: vertical; }
+
+    /* ── Badge ──────────────────────────────────────── */
+    .badge {
+      display: inline-block;
+      padding: .2rem .65rem;
+      border-radius: 99px;
+      font-size: .75rem;
+      font-weight: 600;
+      background: #dbeafe;
+      color: #1e40af;
+    }
+
+    /* ── Footer ─────────────────────────────────────── */
+    footer {
+      text-align: center;
+      padding: 2rem;
+      font-size: .78rem;
+      color: #6b7280;
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <div class="brand">☁️ Cloud Notes <span>GMIU Cloud Computing Assignment</span></div>
+  <div>
+    <a href="/">🏠 Home</a>
+    <a href="/add">➕ New Note</a>
+    <a href="/health">💚 Health</a>
+  </div>
+</nav>
+
+<div class="cloud-banner">
+  <span>🖥️ <b>Compute Service:</b> Render.com Web Service (Python/Gunicorn)</span>
+  <span>🗄️ <b>Storage Service:</b> SQLite Database on persistent cloud disk</span>
+  <span>🌐 <b>Internet Access:</b> Public HTTPS URL provided by Render</span>
+  <span>📍 <b>Region:</b> US West (Oregon)</span>
+</div>
+
+<div class="container">
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      <ul class="flash-list">
+        {% for category, message in messages %}
+          <li class="{{ category }}">{{ message }}</li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+  {% endwith %}
+
+  {% block content %}{% endblock %}
+</div>
+
+<footer>
+  Cloud Notes App · GMIU Cloud Computing Assignment · Deployed on Render.com
+</footer>
+
+</body>
+</html>

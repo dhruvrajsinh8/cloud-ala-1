@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div style="max-width:660px; margin:0 auto;">
+  <a href="/" style="color:#1a73e8; font-size:.88rem; text-decoration:none;">← Back to all notes</a>
+
+  <div class="card" style="margin-top:1rem;">
+    <div style="display:flex; align-items:center; gap:.75rem; margin-bottom:.75rem;">
+      <h1 style="font-size:1.5rem;">{{ note.title }}</h1>
+      <span class="badge">{{ note.category }}</span>
+    </div>
+    <p style="color:#6b7280; font-size:.8rem; margin-bottom:1.25rem;">🕐 Created {{ note.created_at.strftime('%d %B %Y at %I:%M %p') }}</p>
+    <p style="line-height:1.75; color:#1e2a3a; white-space:pre-wrap;">{{ note.content }}</p>
+
+    <div style="margin-top:1.5rem; padding-top:1rem; border-top:1px solid #e5e7eb; display:flex; gap:.75rem;">
+      <a href="/" class="btn btn-secondary">← Back</a>
+      <form method="POST" action="/delete/{{ note.id }}" onsubmit="return confirm('Delete this note?')">
+        <button type="submit" class="btn btn-danger">🗑️ Delete</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

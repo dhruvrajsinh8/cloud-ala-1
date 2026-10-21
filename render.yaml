@@ -1,0 +1,20 @@
+# render.yaml — Render.com deployment configuration
+# Defines both the web service (compute) and disk (persistent storage)
+
+services:
+  - type: web
+    name: cloud-notes-app
+    env: python
+    region: oregon         # US West data center
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn app:app --workers 2 --bind 0.0.0.0:$PORT
+    envVars:
+      - key: SECRET_KEY
+        generateValue: true   # Render auto-generates a secure random key
+      - key: PYTHON_VERSION
+        value: 3.11.0
+    disk:
+      name: notes-db
+      mountPath: /var/data
+      sizeGB: 1              # 1 GB persistent disk for SQLite storage

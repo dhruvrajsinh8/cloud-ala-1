@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:1.5rem;">
+  <h1 style="font-size:1.6rem;">📝 My Notes</h1>
+  <a href="/add" class="btn btn-primary">➕ Add Note</a>
+</div>
+
+{% if notes %}
+  {% for note in notes %}
+  <div class="card" style="display:flex; justify-content:space-between; align-items:flex-start; gap:1rem;">
+    <div style="flex:1;">
+      <div style="display:flex; align-items:center; gap:.6rem; margin-bottom:.4rem;">
+        <a href="/note/{{ note.id }}" style="font-size:1.1rem; font-weight:700; color:#1a73e8; text-decoration:none;">{{ note.title }}</a>
+        <span class="badge">{{ note.category }}</span>
+      </div>
+      <p style="color:#4b5563; font-size:.9rem; line-height:1.5;">{{ note.content[:120] }}{% if note.content|length > 120 %}…{% endif %}</p>
+      <p style="color:#9ca3af; font-size:.75rem; margin-top:.5rem;">🕐 {{ note.created_at.strftime('%d %b %Y, %I:%M %p') }}</p>
+    </div>
+    <form method="POST" action="/delete/{{ note.id }}" onsubmit="return confirm('Delete this note?')">
+      <button type="submit" class="btn btn-danger" style="padding:.4rem .8rem; font-size:.8rem;">🗑️</button>
+    </form>
+  </div>
+  {% endfor %}
+{% else %}
+  <div class="card" style="text-align:center; padding:3rem; color:#9ca3af;">
+    <div style="font-size:3rem; margin-bottom:1rem;">☁️</div>
+    <p style="font-size:1.1rem; margin-bottom:1rem;">No notes yet. Your cloud storage is empty!</p>
+    <a href="/add" class="btn btn-primary">Add your first note</a>
+  </div>
+{% endif %}
+
+{% endblock %}
